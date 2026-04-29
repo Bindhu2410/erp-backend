@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quotation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .company-details, .recipient-details {
+            margin-bottom: 20px;
+        }
+        .company-details p, .recipient-details p {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .terms {
+            margin-top: 20px;
+        }
+        .terms h3 {
+            margin-bottom: 10px;
+        }
+        .terms ul {
+            padding-left: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        @media print {
+            .container {
+                border: none;
+            }
+            body {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Replace with actual logo path or base64 image -->
+            <img src="https://via.placeholder.com/150x50?text=Logo" alt="JBS Mediitec Logo">
+            <h2>JBS Mediitec India Private Limited</h2>
+            <p>Sri Ragavendra Tower, 3rd Floor, No-34, Co-operative E-colony, Villankurichi Road, Coimbatore-641035</p>
+            <p>Ph: 0422-2665030, 2665031 | Email: info@jbsmediitec.com</p>
+            <p>PAN: AABCJ6645C | CIN: U33112TZ2006PTC012703 | GST: 33AABCJ6645C1ZW</p>
+        </div>
+
+        <h3>QUOTATION</h3>
+        <p><strong>Ref:</strong> {{QuotationRef}}</p>
+        <p><strong>Date:</strong> {{QuotationDate}}</p>
+
+        <div class="recipient-details">
+            <p><strong>To:</strong></p>
+            <p>{{CustomerName}}</p>
+            <p>{{CustomerAddress}}</p>
+            <p>Mobile: {{ContactMobile}}</p>
+            <p>Email: {{ContactEmail}}</p>
+        </div>
+
+        <p><strong>Subject:</strong> FINAL OFFER Quotation for Products/Services</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S.No</th>
+                    <th style="width: 70%;">Product Details</th>
+                    <th style="width: 20%;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ProductRows}}
+            </tbody>
+        </table>
+
+        <p><strong>Total (INR):</strong> Rs. {{TotalPrice}}/-</p>
+        <p><strong>Final Offer Price:</strong> Rs. {{FinalOfferPrice}}/- (net, inclusive of 12% GST)</p>
+
+        <div class="terms">
+            <h3>Terms and Conditions:</h3>
+            <ul>
+                <li><strong>Taxes:</strong> Included in the final offer price (12% GST).</li>
+                <li><strong>Freight Charges:</strong> Extra at actuals, payable by the customer.</li>
+                <li><strong>Delivery:</strong> 4-6 weeks after receipt of confirmed order to the specified address.</li>
+                <li><strong>Payment:</strong> 100% advance payment by RTGS to:<br>
+                    M/s. JBS Mediitec India Private Ltd.<br>
+                    Bank: Bank of India, Coimbatore Main Branch, Coimbatore<br>
+                    Account No: 820030110000018<br>
+                    IFSC Code: BKID0008200</li>
+                <li><strong>Warranty:</strong> One-year serviceable warranty from the date of supply/installation against manufacturing defects. Excludes damages from mechanical issues, mishandling, negligence, or consumable accessories.</li>
+                <li><strong>Validity:</strong> 30 days.</li>
+                <li><strong>Jurisdiction:</strong> Subject to Coimbatore jurisdiction.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>With best regards,</p>
+            <p>For M/s. JBS Mediitec India Private Limited,</p>
+            <p>S. Ambiga<br>Marketing Co-Ordinator</p>
+            <p>Sri Ragavendra Tower, 3rd Floor, No-34, Co-operative E-colony, Villankurichi Road, Coimbatore-641035</p>
+            <p>Ph: 0422-2665030, 2665031 | Email: info@jbsmediitec.com</p>
+        </div>
+    </div>
+</body>
+</html>

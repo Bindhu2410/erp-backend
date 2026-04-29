@@ -1,0 +1,251 @@
+@model dynamic
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Print Template</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root{ --primary: @(Model.PrimaryColor ?? "#1e3a8a"); --secondary: @(Model.SecondaryColor ?? "#38a169"); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; padding-top: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 0.5rem; }
+
+        header { border-bottom: 1px solid #d1d5db; padding: 0.5rem 0; width: 100%; }
+        .product-bar { background-color: var(--primary); border-radius: 0.5rem; padding: 0.75rem 2rem; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1rem; }
+        .product-bar span { color: white; font-size:1rem; font-weight:600; }
+
+        .company-name { text-align:center; margin:0.5rem 0; }
+        .company-name .jbs{ font-size:2.25rem; font-weight:bold; color:#388E3C; font-family:serif; letter-spacing:2px; }
+        .company-name .meditec{ font-weight:bold; color:#B71C1C; font-size:1.25rem; }
+
+        .header-info{ display:flex; justify-content:space-between; margin-top:0.5rem; padding:0 0.5rem; font-size:0.75rem; }
+        .header-info-left{ flex:1; line-height:1.4 }
+        .header-info-right{ flex:1; text-align:right; line-height:1.5; font-weight:600 }
+
+        main{ max-width:900px; margin:0 auto; background:white; padding:1rem; }
+        .quotation-title{ text-align:center; font-size:1.5rem; font-weight:bold; color:var(--primary); text-transform:uppercase; letter-spacing:0.1em; margin:0.5rem 0; }
+
+        .ref-date{ display:flex; justify-content:space-between; padding-bottom:0.5rem; border-bottom:1px solid #93c5fd; margin-bottom:1rem }
+        .ref-date span{ font-weight:600; color:var(--primary); }
+
+        .client-address{ margin-bottom:1.5rem; line-height:1.8 }
+        .client-address .label{ font-weight:600; color:var(--primary); }
+
+        .subject{ font-weight:600; margin:1.5rem 0; color:var(--primary); font-size:1rem }
+        .subject-text{ color:black }
+
+        table{ width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:0.875rem }
+        thead{ background-color: var(--primary); color:white }
+        th{ padding:0.75rem 1rem; text-align:left; font-weight:500; }
+        th.text-right{ text-align:right }
+        tbody tr{ border-bottom:1px solid #e5e7eb }
+        tbody tr:nth-child(even){ background-color:#f9fafb }
+        td{ padding:0.75rem 1rem }
+        td.text-right{ text-align:right }
+        td.text-center{ text-align:center }
+
+        .component-header{ background-color:#eff6ff; font-weight:500; color:#1e40af }
+        .component-row{ background-color:#f0f9ff }
+
+        .summary{ background-color:#f9fafb; border-radius:0.5rem; padding:1rem; margin:1.5rem 0 }
+        .summary-content{ display:flex; flex-direction:column; gap:0.5rem; text-align:right }
+        .summary hr{ margin:0.5rem 0; border:none; border-top:1px solid #d1d5db }
+
+        .terms{ margin-top:2rem }
+        .terms h3{ color:var(--primary); font-weight:bold; font-size:1.125rem; margin-bottom:0.75rem }
+        .terms-table td{ padding:0.75rem 1rem; vertical-align:top }
+        .terms-table td:first-child{ font-weight:600; color:var(--primary); width:20% }
+
+        .signature{ margin-top:2.5rem; margin-bottom:0.5rem }
+        .signature .label{ font-weight:600; color:var(--primary) }
+        .signature .company{ font-weight:600 }
+
+        footer{ border-top:1px solid #d1d5db; padding:0.5rem 0; margin-top:2rem }
+        .footer-content{ max-width:1200px; margin:0 auto; text-align:center }
+        .footer-address{ font-size:0.9375rem; font-weight:600; color:#212121; line-height:1.4 }
+        .footer-products{ background-color:var(--primary); color:white; padding:0.25rem 1.5rem; border-radius:0.25rem; display:inline-flex; gap:1.5rem; margin-top:0.5rem; }
+
+        /* Print styles - escape Razor directives with @@ */
+        @@media print {
+            @@page { margin-top: 140px; margin-bottom: 100px; margin-left: 0.5in; margin-right: 0.5in; size: A4; }
+            body { margin:0 !important; padding:0 !important }
+            /* Use table header/footer groups to repeat header/footer on each printed page */
+            thead { display: table-header-group !important }
+            tfoot { display: table-footer-group !important }
+            /* remove fixed header/footer approach for print; thead/tfoot will repeat */
+            header { position: static; }
+            footer { position: static; }
+            main { margin-top:0 !important; margin-bottom:100px !important }
+            table { page-break-inside:auto !important }
+            tr, td, th { page-break-inside: avoid !important }
+            .summary, .terms, .signature { page-break-inside: avoid !important }
+            .container { box-shadow: none !important }
+        }
+    </style>
+    @functions{
+        public static Microsoft.AspNetCore.Html.HtmlString RawHtml(object? s){
+            var str = s?.ToString() ?? string.Empty; return new Microsoft.AspNetCore.Html.HtmlString(str);
+        }
+    }
+</head>
+<body>
+    <div class="container">
+        <table class="page-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <td>
+                        <!-- Header placed in thead so it repeats on every printed page -->
+                        <div class="product-bar">
+                            <span>Laparoscope</span>
+                            <span>•</span>
+                            <span>Colposcope</span>
+                            <span>•</span>
+                            <span>Hysteroscope</span>
+                            <span>•</span>
+                            <span>Fetal Monitor</span>
+                            <span>•</span>
+                            <span>Fluid Management system</span>
+                        </div>
+
+                        <div class="company-name">
+                            <span class="jbs">JBS</span>
+                            <span class="meditec">meditec India Private Limited</span>
+                        </div>
+
+                        <div class="header-info">
+                            <div class="header-info-left">
+                                <div><strong>proMIS</strong> - Laparoscope, Colposcope, Hysteroscope</div>
+                                <div><strong>ALAN</strong> - Diathermy, Vessel Sealing System, APC, Saline-TUR</div>
+                                <div><strong>HOSPINZ</strong> - Laparoscope Instruments, VET, Morcellator, Fluid Management system</div>
+                            </div>
+                            <div class="header-info-right">
+                                <div>PAN : AABCJ6645C</div>
+                                <div>CIN : U33112TZ2006PTC012703</div>
+                                <div><strong>GST:33AABCJ6645C1ZW</strong></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <main id="mainContent">
+            <div class="quotation-title">Quotation</div>
+
+            <div class="ref-date">
+                <div><span>Ref:</span> <span id="quotationRef">@Model.QuotationNumber</span></div>
+                <div><span>Date:</span> <span id="quotationDate">@((Model.Date as DateTime?)?.ToString("dd/MM/yyyy") ?? Model.Date.ToString())</span></div>
+            </div>
+
+            <div class="client-address">
+                <div class="label">To,</div>
+                <div id="clientName">@Model.CustomerName</div>
+                <div id="clientAddress">@RawHtml(Model.CustomerAddress)</div>
+                <div style="margin-top:0.75rem; font-weight:bold;">Dear Sir/Madam,</div>
+            </div>
+
+            <div class="subject">
+                Sub: <span class="subject-text">@Model.Subject ?? "Quotation"</span>
+            </div>
+
+            <table id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>PRODUCT DETAILS</th>
+                        <th class="text-right">QTY</th>
+                        <th class="text-right">RATE</th>
+                        <th class="text-right">TAX %</th>
+                        <th class="text-right">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var __items = (System.Collections.IEnumerable)Model.Items;
+                        var __sno = 0;
+                    }
+                    @foreach(var __raw in __items){
+                        __sno++;
+                        var it = __raw;
+                        var desc = it?.GetType().GetProperty("Description")?.GetValue(it)?.ToString() ?? it?.GetType().GetProperty("bomName")?.GetValue(it)?.ToString() ?? "";
+                        var qty = it?.GetType().GetProperty("Qty")?.GetValue(it) ?? it?.GetType().GetProperty("qty")?.GetValue(it) ?? 0;
+                        var unitPrice = it?.GetType().GetProperty("UnitPrice")?.GetValue(it) ?? it?.GetType().GetProperty("unitPrice")?.GetValue(it) ?? 0m;
+                        var taxPerc = it?.GetType().GetProperty("TaxPercentage")?.GetValue(it) ?? it?.GetType().GetProperty("taxPercentage")?.GetValue(it) ?? 0;
+                        var amountValObj = it?.GetType().GetProperty("Total")?.GetValue(it) ?? it?.GetType().GetProperty("amount")?.GetValue(it) ?? 0m;
+                        decimal amountVal = 0m;
+                        try{ amountVal = Convert.ToDecimal(amountValObj); } catch{};
+                    <tr>
+                        <td style="font-weight:500;">@__sno</td>
+                        <td style="font-weight:500;">@RawHtml(desc)</td>
+                        <td class="text-right">@qty</td>
+                        <td class="text-right">@Convert.ToDecimal(unitPrice).ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                        <td class="text-right">@taxPerc %</td>
+                        <td class="text-right" style="font-weight:500;">@amountVal.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="summary">
+                <div class="summary-content">
+                    <div>Total Products: <span id="totalProducts">@((Model.Items as System.Collections.ICollection)?.Count ?? 0)</span></div>
+                    <div>Total Items and Accessories: <span id="totalItems">0</span></div>
+                </div>
+                <hr />
+                    <div style="margin-top:8px; text-align:right;">
+                    <div>Subtotal: <strong>@((decimal)Model.SubTotal).ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</strong></div>
+                    <div>Tax: <strong>@((decimal)Model.TaxAmount).ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</strong></div>
+                    <div class="total">Total: <strong>@((decimal)Model.Total).ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</strong></div>
+                </div>
+            </div>
+
+            <div class="terms">
+                <h3>Terms and Conditions:</h3>
+                <table class="terms-table">
+                    <tbody>
+                        @if(!string.IsNullOrEmpty((string?)Model.TermsAndConditionsHtml)){
+                            <tr><td colspan="2">@RawHtml(Model.TermsAndConditionsHtml)</td></tr>
+                        } else {
+                            <tr><td>GST</td><td>12% applicable on current structure. Delivery: 4-6 weeks after receipt of confirmed order.</td></tr>
+                            <tr><td>Payment</td><td>100% advance for first order.</td></tr>
+                            <tr><td>Warranty</td><td>12 months on parts & service.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="signature">
+                <div class="label">With best regards,</div>
+                <div class="company">For M/s. @Model.CompanyName,</div>
+                <div id="representative">@Model.RepresentativeName</div>
+            </div>
+                        </main>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <footer>
+                            <div class="footer-content">
+                                <div class="footer-address">@RawHtml(Model.CompanyAddress) <br /> Ph: @Model.CompanyPhone | E-mail: @Model.CompanyEmail</div>
+                                <div class="footer-products">
+                                    <span>Diathermy</span>
+                                    <span>■</span>
+                                    <span>Alligature</span>
+                                    <span>■</span>
+                                    <span>Argon Plasma Coagulator (APC)</span>
+                                    <span>■</span>
+                                    <span>Saline-TUR</span>
+                                </div>
+                            </div>
+                        </footer>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>

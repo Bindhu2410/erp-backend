@@ -1,0 +1,467 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ERP.API</name>
+    </assembly>
+    <members>
+        <member name="T:ERP.API.Controllers.DemoGridController">
+            <summary>
+            Controller for managing demo grid operations
+            </summary>
+        </member>
+        <member name="M:ERP.API.Controllers.DemoGridController.GetDemosGrid(ERP.API.Models.DemoGridRequest)">
+            <summary>
+            Get a paginated list of demos based on filters and sorting criteria
+            </summary>
+            <param name="request">The request containing search, filter, pagination and sorting parameters</param>
+            <returns>A list of demos matching the criteria with total count</returns>
+            <response code="200">Returns the list of demos with total count</response>
+            <response code="400">If the request parameters are invalid</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.DemoGridController.GetDropdownOptions">
+            <summary>
+            Get dropdown options for filtering demos
+            </summary>
+            <returns>Available options for statuses, customer names and demo types</returns>
+            <response code="200">Returns the dropdown options</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.DemoGridController.ExportToExcel(ERP.API.Models.DemoGridRequest)">
+            <summary>
+            Export demos to Excel
+            </summary>
+            <param name="request">The request containing filter parameters</param>
+            <returns>Excel file containing filtered demos</returns>
+            <response code="200">Returns the Excel file</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.DemoGridController.ExportToPdf(ERP.API.Models.DemoGridRequest)">
+            <summary>
+            Export demos to PDF
+            </summary>
+            <param name="request">The request containing filter parameters</param>
+            <returns>PDF file containing filtered demos</returns>
+            <response code="200">Returns the PDF file</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.ProductDropdownController.GetProductList">
+            <summary>
+            Gets a simplified list of products with only item code and name
+            </summary>
+            <returns>List of products with item code and name</returns>
+            <response code="200">Returns the list of products</response>
+            <response code="500">If there was an error retrieving the products</response>
+        </member>
+        <member name="T:ERP.API.Controllers.QuotationController">
+            <summary>
+            Controller for managing quotations
+            </summary>
+        </member>
+        <member name="M:ERP.API.Controllers.QuotationController.#ctor(ERP.API.Services.QuotationService,Microsoft.Extensions.Logging.ILogger{ERP.API.Controllers.QuotationController})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ERP.API.Controllers.QuotationController"/> class.
+            </summary>
+        </member>
+        <member name="M:ERP.API.Controllers.QuotationController.Create(ERP.API.Models.DTOs.CreateQuotationRequestDto)">
+            <summary>
+            Creates a new quotation
+            </summary>
+            <param name="request">The quotation details to create</param>
+            <returns>The created quotation</returns>
+            <response code="201">Returns the newly created quotation</response>
+            <response code="400">If the request is invalid</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.QuotationController.Update(System.Int32,ERP.API.Models.DTOs.UpdateQuotationRequestDto)">
+            <summary>
+            Updates an existing quotation
+            </summary>
+            <param name="id">The ID of the quotation to update</param>
+            <param name="request">The updated quotation details</param>
+            <returns>The updated quotation</returns>        /// <response code="204">If the update was successful</response>
+            <response code="400">If the request is invalid or ID mismatch</response>
+            <response code="404">If the quotation was not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.QuotationController.GetById(System.Int32)">
+            <summary>
+            Get a quotation by ID
+            </summary>
+            <param name="id">The ID of the quotation</param>
+            <returns>The quotation</returns>
+            <response code="200">Returns the quotation</response>
+            <response code="404">If the quotation was not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.QuotationController.Print(System.Int32)">
+            <summary>
+            Generates a printable HTML version of a quotation
+            </summary>
+            <param name="id">The ID of the quotation</param>
+            <returns>The quotation in HTML format as a downloadable file</returns>
+            <response code="200">Returns the quotation HTML</response>
+            <response code="404">If the quotation was not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="T:ERP.API.Controllers.SalesAddressController">
+            <summary>
+            API endpoints for managing sales addresses
+            </summary>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.GetAll">
+            <summary>
+            Gets all addresses
+            </summary>
+            <returns>List of all addresses</returns>
+            <response code="200">Returns the list of addresses</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If an unexpected error occurs</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.GetById(System.Int32)">
+            <summary>
+            Gets a specific address by ID
+            </summary>
+            <param name="id">The ID of the address to retrieve</param>
+            <returns>The requested address</returns>
+            <response code="200">Returns the requested address</response>
+            <response code="404">If the address is not found</response>
+            <response code="400">If the ID is invalid</response>        /// <response code="500">If an unexpected error occurs</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.GetBySalesLeadId(System.Nullable{System.Int32})">
+            <summary>
+            Gets all addresses for a specific sales lead
+            </summary>
+            <param name="salesLeadId">The ID of the sales lead</param>
+            <returns>List of addresses associated with the sales lead</returns>
+            <response code="200">Returns the list of addresses</response>
+            <response code="404">If no addresses are found for the sales lead</response>        [HttpGet("lead/{salesLeadId}")]
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.Create(ERP.API.Models.DTOs.CreateSalesAddressDto)">
+            <summary>
+            Creates a new address
+            </summary>
+            <param name="dto">The address information to create</param>
+            <returns>The ID of the created address</returns>
+            <response code="201">Returns the ID of the created address</response>
+            <response code="400">If the model state is invalid</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If an unexpected error occurs</response>        [HttpPost]
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.Update(System.Int32,ERP.API.Models.DTOs.UpdateSalesAddressDto)">
+            <summary>
+            Updates an existing address
+            </summary>
+            <param name="id">The ID of the address to update</param>
+            <param name="dto">The updated address information</param>
+            <returns>The updated address data</returns>
+            <response code="200">Returns the updated address</response>
+            <response code="404">If the address is not found</response>
+            <response code="400">If the model state is invalid</response>        /// <response code="500">If an unexpected error occurs</response>        [HttpPut]
+        </member>
+        <member name="M:ERP.API.Controllers.SalesAddressController.Delete(System.Int32)">
+            <summary>
+            Deletes an address
+            </summary>
+            <param name="id">The ID of the address to delete</param>
+            <returns>No content</returns>
+            <response code="204">If the address was successfully deleted</response>
+            <response code="404">If the address is not found</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If an unexpected error occurs</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesBankAccountController.GetAll">
+            <summary>
+            Get all bank accounts
+            </summary>
+            <returns>List of all active bank accounts</returns>
+            <response code="200">Returns the list of bank accounts</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesBankAccountController.GetById(System.Int32)">
+            <summary>
+            Get bank account by ID
+            </summary>
+            <param name="id">The ID of the bank account</param>
+            <returns>The bank account</returns>
+            <response code="200">Returns the bank account</response>
+            <response code="404">If the bank account was not found</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesBankAccountController.Create(ERP.API.Models.SalesBankAccount)">
+            <summary>
+            Create a new bank account
+            </summary>
+            <param name="bankAccount">The bank account details</param>
+            <returns>The ID of the created bank account</returns>
+            <response code="201">Returns the ID of the created bank account</response>
+            <response code="400">If the request data is invalid</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesBankAccountController.Update(System.Int32,ERP.API.Models.SalesBankAccount)">
+            <summary>
+            Update an existing bank account
+            </summary>
+            <param name="id">The ID of the bank account to update</param>
+            <param name="bankAccount">The updated bank account data</param>
+            <returns>No content</returns>
+            <response code="204">If the update was successful</response>
+            <response code="400">If the request data is invalid</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesBankAccountController.Delete(System.Int32)">
+            <summary>
+            Delete a bank account
+            </summary>
+            <param name="id">The ID of the bank account to delete</param>
+            <returns>No content</returns>
+            <response code="204">If the deletion was successful</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesContactController.GetAll">
+            <summary>
+            Gets all sales contacts
+            </summary>
+            <returns>List of all sales contacts</returns>
+            <response code="200">Returns the list of contacts</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesContactController.GetById(System.Int32)">
+            <summary>
+            Gets a specific sales contact by ID
+            </summary>
+            <param name="id">The ID of the contact to retrieve</param>
+            <returns>The requested sales contact</returns>
+            <response code="200">Returns the requested contact</response>
+            <response code="404">If the contact is not found</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesContactController.GetBySalesLeadId(System.Int32)">
+            <summary>
+            Gets all contacts for a specific sales lead
+            </summary>
+            <param name="salesLeadId">The ID of the sales lead</param>
+            <returns>List of contacts associated with the sales lead</returns>
+            <response code="200">Returns the list of contacts</response>
+            <response code="404">If no contacts are found for the sales lead</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesContactController.Create(ERP.API.Models.DTOs.SalesContactDto)">
+            <summary>
+            Creates a new sales contact
+            </summary>
+            <param name="dto">The contact information to create</param>
+            <returns>The ID of the created contact</returns>
+            <response code="201">Returns the ID of the created contact</response>
+            <response code="400">If the model state is invalid</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesContactController.Update(System.Int32,ERP.API.Models.DTOs.SalesContactDto)">
+            <summary>
+            Updates an existing sales contact
+            </summary>
+            <param name="id">The ID of the contact to update</param>
+            <param name="dto">The updated contact information</param>
+            <returns>The updated contact data</returns>
+            <response code="200">Returns the updated contact</response>
+            <response code="404">If the contact is not found</response>
+            <response code="400">If the model state is invalid</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesDemoController.GetDemos">
+            <summary>
+            Gets all sales demos.
+            </summary>
+            <returns>A list of all sales demos</returns>
+            <response code="200">Returns the list of demos</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesDemoController.GetDemo(System.Int32)">
+            <summary>
+            Gets a specific sales demo by ID.
+            </summary>
+            <param name="id">The ID of the sales demo to retrieve</param>
+            <returns>The requested sales demo</returns>
+            <response code="200">Returns the requested demo</response>
+            <response code="400">If the ID is invalid</response>
+            <response code="404">If the demo was not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesDemoController.CreateDemo(ERP.API.Models.DTOs.CreateSalesDemoDto)">
+            <summary>        /// Creates a new sales demo record.
+            </summary>
+            <param name="demoDto">The sales demo record to create</param>
+            <returns>The ID of the newly created demo</returns>
+            <response code="201">Returns the newly created demo ID</response>
+            <response code="400">If the demo data is invalid</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesDemoController.UpdateDemo(System.Int32,ERP.API.Models.DTOs.UpdateSalesDemoDto)">
+            <summary>
+            Updates an existing sales demo
+            </summary>
+            <param name="id">The ID of the demo to update</param>
+            <param name="demoDto">The updated demo information</param>
+            <returns>No content if successful</returns>
+            <response code="204">If the update was successful</response>
+            <response code="400">If the demo data is invalid</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="404">If the demo is not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesLeadController.Create(ERP.API.Models.SalesLead)">
+            <summary>
+            Creates a new sales lead
+            </summary>
+            <param name="lead">The lead information in JSON format</param>
+            <returns>The ID of the created lead</returns>
+            <response code="201">Returns the ID of the created lead</response>
+            <response code="400">If the request data is invalid</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesOpportunityController.GetOpportunities">
+            <summary>
+            Gets all active sales opportunities
+            </summary>
+            <returns>List of all active sales opportunities</returns>
+            <response code="200">Returns the list of opportunities</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesOpportunityController.GetOpportunity(System.Int32)">
+            <summary>
+            Gets a specific sales opportunity by ID
+            </summary>
+            <param name="id">The ID of the opportunity to retrieve</param>
+            <returns>The requested sales opportunity</returns>
+            <response code="200">Returns the requested opportunity</response>
+            <response code="400">If the ID is invalid</response>
+            <response code="404">If the opportunity is not found</response>        /// <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesOpportunityController.GetOpportunitiesByLeadId(System.Int32)">
+            <summary>
+            Gets all opportunities for a specific sales lead
+            </summary>
+            <param name="leadId">The ID of the sales lead</param>
+            <returns>List of opportunities associated with the sales lead</returns>
+            <response code="200">Returns the list of opportunities</response>
+            <response code="400">If the lead ID is invalid</response>
+            <response code="404">If no opportunities are found for the sales lead</response>
+            <response code="401">If the user is not authorized</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesOpportunityController.GetOpportunitiesGrid(ERP.API.Models.SalesOpportunityGridRequest)">
+            <summary>
+            Gets a paginated list of opportunities with filtering and sorting
+            </summary>
+            <param name="request">The grid request parameters</param>
+            <returns>Paginated list of opportunities with total count</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.GetAll">
+            <summary>
+            Get all quotations
+            </summary>
+            <returns>List of all quotations</returns>        /// <response code="200">Returns the list of quotations</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.GetById(System.Int32)">
+            <summary>
+            Get quotation by ID
+            </summary>
+            <param name="id">The ID of the quotation to retrieve</param>
+            <returns>The requested quotation</returns>
+            <response code="200">Returns the requested quotation</response>
+            <response code="404">If the quotation is not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.Delete(System.Int32)">
+            <summary>
+            Delete quotation
+            </summary>
+            <param name="id">The ID of the quotation to delete</param>
+            <returns>No content if successful</returns>
+            <response code="204">If the quotation was successfully deleted</response>
+            <response code="404">If the quotation is not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.GetByOpportunityId(System.String)">
+            <summary>
+            Get quotations by opportunity ID
+            </summary>
+            <param name="opportunityId">The ID of the opportunity</param>
+            <returns>List of quotations for the opportunity</returns>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.GetByCustomerId(System.String)">
+            <summary>
+            Get quotations by customer ID
+            </summary>
+            <param name="customerId">The ID of the customer</param>
+            <returns>List of quotations for the customer</returns>
+            <response code="200">Returns the list of quotations</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.Create(ERP.API.Models.DTOs.CreateQuotationRequestDto)">
+            <summary>
+            Create a new quotation
+            </summary>
+            <param name="request">The quotation details to create</param>
+            <returns>The ID of the created quotation</returns>
+            <response code="201">Returns the newly created quotation ID</response>
+            <response code="400">If the request data is invalid</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesQuotationController.Update(System.Int32,ERP.API.Models.DTOs.UpdateQuotationRequestDto)">
+            <summary>
+            Update an existing quotation
+            </summary>
+            <param name="id">The ID of the quotation to update</param>
+            <param name="request">The updated quotation data</param>
+            <returns>No content if successful</returns>
+            <response code="204">If the quotation was successfully updated</response>
+            <response code="400">If the quotation data is invalid or IDs don't match</response>
+            <response code="404">If the quotation is not found</response>
+            <response code="500">If there was an internal server error</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.GetAll">
+            <summary>
+            Get all terms and conditions templates
+            </summary>
+            <returns>List of all active templates</returns>
+            <response code="200">Returns the list of templates</response>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.GetById(System.Int32)">
+            <summary>
+            Get terms and conditions by ID
+            </summary>
+            <param name="id">The ID of the terms and conditions template</param>
+            <returns>The terms and conditions template</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.GetByQuotationId(System.Int32)">
+            <summary>
+            Get terms and conditions by quotation ID
+            </summary>
+            <param name="quotationId">The ID of the quotation</param>
+            <returns>The terms and conditions for the quotation</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.Create(ERP.API.Models.SalesTermsAndConditions)">
+            <summary>
+            Create a new terms and conditions template
+            </summary>
+            <returns>The ID of the created template</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.Update(System.Int32,ERP.API.Models.SalesTermsAndConditions)">
+            <summary>
+            Update terms and conditions by ID
+            </summary>
+            <param name="id">The ID of the template to update</param>
+            <param name="terms">The updated terms and conditions data</param>
+            <returns>No content</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.UpdateByQuotationId(System.Int32,ERP.API.Models.SalesTermsAndConditions)">
+            <summary>
+            Update terms and conditions by quotation ID
+            </summary>
+            <param name="quotationId">The ID of the quotation</param>
+            <param name="terms">The updated terms and conditions data</param>
+            <returns>No content</returns>
+        </member>
+        <member name="M:ERP.API.Controllers.SalesTermsAndConditionsController.Delete(System.Int32)">
+            <summary>
+            Delete a terms and conditions template
+            </summary>
+            <param name="id">The ID of the template to delete</param>
+            <returns>No content</returns>
+        </member>
+    </members>
+</doc>
